@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Division Manual Roadmap | Glassmorphism</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #e8eaec 0%, #ffffff 100%);
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            --backdrop-blur: blur(12px);
+            --accent-color: #000000;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+            background: transparent;
+            /* Changed for spotlight visibility */
+            /* Base color fallback */
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Interactive Background */
+        .interactive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background:
+                radial-gradient(circle at var(--mouse-x) var(--mouse-y),
+                    rgba(255, 255, 255, 1) 0%,
+                    transparent 50%),
+                linear-gradient(135deg, #e8eaec 0%, #f4f5f7 100%);
+            pointer-events: none;
+            transition: background 0.1s ease;
+            /* Smooth transition */
+        }
+
+        /* Decorative Abstract Shapes */
+        .shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: #e0e7ff;
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: #f3e8ff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* Header Section */
+        header {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 10px 0 0 0;
+            letter-spacing: -0.03em;
+            background: linear-gradient(45deg, #000, #444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-badge {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .project-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Glassmorphism Card Mixin */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.1);
+            background: rgba(255, 255, 255, 0.85);
+            /* Whiter on hover */
+        }
+
+        /* Intro Grid */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .comp-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .comp-item {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .comp-item span {
+            display: block;
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 20px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            margin-right: 10px;
+        }
+
+        /* Capability Track (Full Width Cards) */
+        .capability-track {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 60px;
+            width: 100%;
+        }
+
+        .cap-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s;
+        }
+
+        .cap-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .cap-card.filled {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 255, 0.8));
+            border-color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .cap-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cap-icon {
+            font-size: 1.8rem;
+            background: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .cap-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .cap-step {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .cap-desc {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .cap-desc ul {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .cap-desc li {
+            margin-bottom: 4px;
+        }
+
+        /* Roadmap Grid (Cards) */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .step-col {
+            padding: 35px 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Active State */
+        .step-col.active {
+            border: 2px solid var(--accent-color);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .step-num {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #999;
+            margin-bottom: 8px;
+            letter-spacing: 0.1em;
+        }
+
+        .step-date {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: block;
+            background: rgba(0, 0, 0, 0.05);
+            width: fit-content;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .step-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            color: var(--text-primary);
+        }
+
+        .step-tasks {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-tasks li {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .step-tasks li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #cbd5e1;
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+        }
+
+        .step-col:hover .click-hint {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Detail View */
+        #detail-view {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .detail-header h2 {
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+        }
+
+        .detail-header p {
+            color: var(--text-secondary);
+        }
+
+        .detail-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* Detail Card Interaction */
+        .detail-card {
+            background: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            /* Reserve space for border */
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .detail-card.active {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-card h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #999;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-card .content {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* Full Width Expanded Panel */
+        #expanded-panel {
+            margin-top: 30px;
+            width: 100%;
+            display: none;
+            /* Controlled by JS */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.95);
+            /* Opaque enough for reading */
+            border: 1px solid var(--accent-color);
+        }
+
+        #expanded-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+
+        .panel-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #999;
+            transition: color 0.2s;
+        }
+
+        .panel-close:hover {
+            color: var(--accent-color);
+        }
+
+        .deep-detail {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .deep-detail ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .deep-detail li {
+            margin-bottom: 8px;
+        }
+
+        .deep-detail li::marker {
+            color: var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+
+            .roadmap-grid,
+            .detail-cards-grid,
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-col {
+                margin-bottom: 20px;
+            }
+
+            .shape {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="container">
+        <!-- ... Header & Intro ... -->
+        <!-- (Using existing structure until Detail Grid) -->
+        <header>
+            <div class="date-badge">2026 ROADMAP STRATEGY</div>
+            <h1>IT Division Manual Strategy</h1>
+            <div class="project-info">
+                <p style="margin:0; font-weight:400; color:#555;">Operational Standards for Value Creation</p>
+                <div class="date-badge">2026.01.26 — 2026.03.27</div>
+            </div>
+        </header>
+
+        <div class="intro-grid">
+            <div class="info-card glass-card">
+                <h3>Definition</h3>
+                <p>
+                    단순한 업무 절차서를 넘어 각 계열사의 Value Chain을 분석하고 Weak Point를 해결하여 품질/속도/수익성 등 실질적 가치를 창출하는 <strong>'작동 가능한 표준
+                        프로세스'</strong>입니다.
+                </p>
+            </div>
+            <div class="info-card glass-card">
+                <h3>Components</h3>
+                <div class="comp-list">
+                    <div class="comp-item">01. MAP<span>프로세스 시각화</span></div>
+                    <div class="comp-item">02. MANUAL<span>직원들이 수행해야 할 세부 액티비티의 목적과 방법</span></div>
+                    <div class="comp-item">03. 표준서<span>문제해결 및 가치창출</span></div>
+                    <div class="comp-item">04. 수행지침<span>업무와 관련된 모든 정보</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">1. 매뉴얼 역량 향상 Step</div>
+        <div class="capability-track">
+            <!-- Step 1 Card -->
+            <div class="cap-card">
+                <div class="cap-header">
+                    <div>
+                        <span class="cap-step">STEP 1</span>
+                        <div class="cap-title">매뉴얼 기본 역량</div>
+                    </div>
+                </div>
+                <div class="cap-desc">
+                    매뉴얼 작성의 필요성과 기본 원칙을 이해하고 있는지 평가합니다.
+                    <ul>
+                        <li><strong>What:</strong> 매뉴얼의 역할과 정의 이해</li>
+                        <li><strong>Why:</strong> 표준화가 조직에 주는 가치 인식</li>
+                        <li><strong>How:</strong> 표준적인 작성 절차와 방법론 습득</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2 Card -->
+            <div class="cap-card filled">
+                <div class="cap-header">
+                    <div>
+                        <span class="cap-step">STEP 2</span>
+                        <div class="cap-title">매뉴얼 핵심 역량</div>
+                    </div>
+                </div>
+                <div class="cap-desc">
+                    고도화된 매뉴얼을 주도적으로 활용하고 개선할 수 있는지 평가합니다.
+                    <ul>
+                        <li><strong>Execution:</strong> 고도화된 매뉴얼의 완벽한 이해 및 실행</li>
+                        <li><strong>Improvement:</strong> 프로세스 모순 발견 및 스스로 고도화</li>
+                        <li><strong>Value:</strong> 매뉴얼 체화를 통한 실질적 성과 창출</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">2. 매뉴얼 작성 Step</div>
+        <div class="roadmap-grid">
+            <div class="step-col glass-card" onclick="showDetails(1)">
+                <div class="step-num">STEP 01</div>
+                <span class="step-date">01.26 - 02.08</span>
+                <div class="step-name">진단 및<br>소싱</div>
+                <ul class="step-tasks">
+                    <li>Value Chain 진단</li>
+                    <li>Weak Point 도출</li>
+                    <li>협력사 BP 소싱</li>
+                </ul>
+                <div class="click-hint">↘</div>
+            </div>
+            <div class="step-col glass-card" onclick="showDetails(2)">
+                <div class="step-num">STEP 02</div>
+                <span class="step-date">02.09 - 02.22</span>
+                <div class="step-name">표준화 &<br>가치 창출</div>
+                <ul class="step-tasks">
+                    <li>RCA 대책 수립</li>
+                    <li>Standard 작성</li>
+                    <li>가치 설계</li>
+                </ul>
+                <div class="click-hint">↘</div>
+            </div>
+            <div class="step-col glass-card" onclick="showDetails(3)">
+                <div class="step-num">STEP 03</div>
+                <span class="step-date">02.23 - 03.08</span>
+                <div class="step-name">PoC &<br>매뉴얼 작성</div>
+                <ul class="step-tasks">
+                    <li>Manual Map 설계</li>
+                    <li>Body 상세 기술</li>
+                    <li>프로세스 검증</li>
+                </ul>
+                <div class="click-hint">↘</div>
+            </div>
+            <div class="step-col glass-card" onclick="showDetails(4)">
+                <div class="step-num">STEP 04</div>
+                <span class="step-date">03.09 - 03.27</span>
+                <div class="step-name">배포 및<br>확산</div>
+                <ul class="step-tasks">
+                    <li>경영진 보고</li>
+                    <li>피드백 수렴</li>
+                    <li>최종본 발행</li>
+                </ul>
+                <div class="click-hint">↘</div>
+            </div>
+        </div>
+
+        <div id="detail-view">
+            <div class="detail-header">
+                <h2 id="detail-title">Detailed Tasks</h2>
+                <p id="detail-desc">상세 활동 내용을 확인하세요. <strong>카드를 클릭하면 전체 상세 내용이 하단에 펼쳐집니다.</strong></p>
+            </div>
+
+            <div class="detail-cards-grid">
+                <!-- SM Card -->
+                <div class="detail-card glass-card" data-type="sm" onclick="toggleCard(this)">
+                    <h4>SM (System Mgmt)</h4>
+                    <div class="content" id="content-sm"></div>
+                </div>
+                <!-- SI Card -->
+                <div class="detail-card glass-card" data-type="si" onclick="toggleCard(this)">
+                    <h4>SI (System Integration)</h4>
+                    <div class="content" id="content-si"></div>
+                </div>
+                <!-- DX/AX Card -->
+                <div class="detail-card glass-card" data-type="dx" onclick="toggleCard(this)">
+                    <h4>DX/AX (Digital/AI)</h4>
+                    <div class="content" id="content-dx"></div>
+                </div>
+                <!-- External Card -->
+                <div class="detail-card glass-card" data-type="ext" onclick="toggleCard(this)">
+                    <h4>EXTERNAL 사업</h4>
+                    <div class="content" id="content-ext"></div>
+                </div>
+            </div>
+
+            <!-- Full Width Expansion Panel -->
+            <div id="expanded-panel" class="glass-card">
+                <div class="panel-header">
+                    <div class="panel-title" id="panel-title">Detail Title</div>
+                    <div class="panel-close" onclick="closePanel()">×</div>
+                </div>
+                <div class="deep-detail" id="panel-content">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Object (Same content as before)
+        const details = {
+            1: {
+                title: "STEP 01: 진단 및 소싱",
+                desc: "현황을 진단하고 최적의 파트너와 방법론을 소싱합니다.",
+                sm: "• 장애/오류 이력 조사 및 패턴 분석<br>• SLA 수준 진단 및 고객 불만(VOC) 파악<br>• 운영 협력사 기술 역량 재평가",
+                sm_detail: "<ul><li>최근 3년치 ITSM 장애 티켓 분석</li><li>운영 담당자(현업) 만족도 설문 시행</li><li>협력사 투입 인력 스킬셋 검증</li></ul>",
+
+                si: "• 과거 프로젝트 리스크/지연 사유 분석<br>• 계열사별 개발 표준 준수 여부 점검<br>• SI 우수 협력사 레퍼런스 체크",
+                si_detail: "<ul><li>실패한 프로젝트 Post-Mortem 결과 검토</li><li>코드 품질/형상 관리 현황 진단</li><li>PMO 인터뷰 및 방법론 확인</li></ul>",
+
+                dx: "• 데이터 품질 및 활용성 진단 (Data Weak Point)<br>• AI/RPA 도입 가능한 비효율 업무 발굴<br>• 최신 Tech 스타트업/협력사 소싱",
+                dx_detail: "<ul><li>DBMS 및 데이터 웨어하우스 구조 파악</li><li>수작업/반복 업무 현황 맵핑</li><li>PoC 참여 가능한 AI 스타트업 리스트업</li></ul>",
+
+                ext: "• 대외 사업 수주 실패/성공 요인 분석<br>• 경쟁사 제안서 및 수행 방식 벤치마킹<br>• 수익성 악화 요인 정밀 진단",
+                ext_detail: "<ul><li>최근 5건 제안서 및 평가 결과 분석</li><li>경쟁사 입찰 가격 및 전략 조사</li><li>투입 원가 대비 실제 수익 분석</li></ul>"
+            },
+            2: {
+                title: "STEP 02: 표준화 & 가치 창출",
+                desc: "근본 원인을 해결하고 실질적 가치를 만드는 표준을 수립합니다.",
+                sm: "• RCA(Root Cause Analysis) 프로세스 정립<br>• 선제적 장애 예방 모니터링 표준화<br><strong>가치: 가동률 99.9% / 장애율 감소</strong>",
+                sm_detail: "<ul><li>장애 등급별 보고 체계 및 시간 정의</li><li>APM/SMS 모니터링 임계치 최적화</li><li>운영 자동화(Automation) 과제 도출</li></ul>",
+
+                si: "• 프로젝트 단계별 필수 점검 Gate 표준화<br>• 리스크 식별 체크리스트 수립<br><strong>가치: 납기 준수율 향상 / 재작업 최소화</strong>",
+                si_detail: "<ul><li>요구사항-설계-구현 추적성 관리 표준</li><li>단계별 산출물 템플릿 표준화</li><li>품질 보증(QA) 수행 가이드라인</li></ul>",
+
+                dx: "• MLOps / DataOps 파이프라인 표준 수립<br>• ROI 산정 기준 및 검증 절차 확립<br><strong>가치: 데이터 기반 의사결정 / 자동화</strong>",
+                dx_detail: "<ul><li>데이터 카탈로그 및 메타데이터 표준 정의</li><li>AI 모델 배포 및 모니터링 체계</li><li>디지털 과제 투자 심의 기준 수립</li></ul>",
+
+                ext: "• 수익성 검증 프로세스(Profit Check) 도입<br>• 수주 심의 위원회 운영 표준화<br><strong>가치: 사업 이익률 개선 / 저가 수주 방지</strong>",
+                ext_detail: "<ul><li>입찰 전 원가 시뮬레이션 툴 도입</li><li>법적/기술적 리스크 평가 항목 표준화</li><li>PM 인센티브 및 손익 책임제 설계</li></ul>"
+            },
+            3: {
+                title: "STEP 03: PoC & 매뉴얼 작성",
+                desc: "표준 프로세스를 매뉴얼로 구체화하고 검증합니다.",
+                sm: "• 운영자용 장애 대응 시나리오별 매뉴얼 작성<br>• 모의 훈련을 통한 대응 프로세스 PoC",
+                sm_detail: "<ul><li>장애 유형별 조치 스크립트(Playbook) 작성</li><li>비상 연락망 및 Escalation Flow 도식화</li><li>가상 장애 상황 부여 및 조치 훈련</li></ul>",
+
+                si: "• PM/PL/개발자 역할별 업무 수행 가이드 제작<br>• 시범 프로젝트 1건 선정 및 표준 적용",
+                si_detail: "<ul><li>WBS 작성 및 진척 관리 매뉴얼</li><li>형상 관리 및 배포 절차 가이드</li><li>파일럿 프로젝트 수행 결과 피드백</li></ul>",
+
+                dx: "• 데이터 분석가 및 현업용 분석 플랫폼 가이드<br>• 파일럿 과제 수행 및 아키텍처 검증",
+                dx_detail: "<ul><li>Self-Bi 도구 사용법 매뉴얼</li><li>AI 모델 학습/배포 튜토리얼</li><li>데이터 보안 및 권한 신청 가이드</li></ul>",
+
+                ext: "• 영업/제안/수행 담당자별 R&R 매뉴얼 작성<br>• 가상 제안 작업을 통한 프로세스 시뮬레이션",
+                ext_detail: "<ul><li>RFP 분석 및 제안 전략 수립 매뉴얼</li><li>협력업체 소싱 및 단가 협상 가이드</li><li>모의 제안 PT 및 평가 진행</li></ul>"
+            },
+            4: {
+                title: "STEP 04: 배포 및 확산",
+                desc: "완성된 매뉴얼을 전사에 배포하고 개선 루틴을 확립합니다.",
+                sm: "• 운영 인력 대상 표준 교육 및 테스트<br>• KMS(지식관리시스템) 내 매뉴얼 탑재",
+                sm_detail: "<ul><li>매뉴얼 이해도 평가 및 수료증 발급</li><li>시스템 접속 화면에 가이드 링크 연동</li><li>장애 조치 사례 DB화 프로세스</li></ul>",
+
+                si: "• 프로젝트 착수 시 표준 가이드라인 준수 서약<br>• 종료 후 교훈(Lesson Learned) 반영 루틴",
+                si_detail: "<ul><li>Kick-off 미팅 시 표준 프로세스 교육</li><li>프로젝트 종료 보고서 내 매뉴얼 피드백 필수화</li><li>우수 PM 포상 제도 연계</li></ul>",
+
+                dx: "• 전사 디지털 리터러시 교육 커리큘럼 운영<br>• 변화 관리(Change Mgmt) 캠페인 추진",
+                dx_detail: "<ul><li>수준별(입문/심화) 데이터 교육 프로그램</li><li>우수 활용 사례 공유회(Case Sharing)</li><li>신기술 도입 가이드라인 배포</li></ul>",
+
+                ext: "• 영업/수행 조직 워크숍 및 마인드셋 교육<br>• 성공/실패 사례 기반 매큐얼 분기별 개정",
+                ext_detail: "<ul><li>수익성 중심 수주 전략 워크숍</li><li>실패 사례 분석을 통한 체크리스트 보완</li><li>매뉴얼 개정 이력 관리(Version Control)</li></ul>"
+            }
+        };
+
+        let currentStepId = 1;
+
+        function showDetails(stepId) {
+            currentStepId = stepId;
+            const data = details[stepId];
+
+            // Text Update
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-desc').innerHTML = data.desc + " <strong>(카드를 클릭하여 상세 내용을 확인하세요)</strong>";
+
+            document.getElementById('content-sm').innerHTML = data.sm;
+            document.getElementById('content-si').innerHTML = data.si;
+            document.getElementById('content-dx').innerHTML = data.dx;
+            document.getElementById('content-ext').innerHTML = data.ext;
+
+            // Close Panel & Reset Active Cards
+            closePanel();
+            document.querySelectorAll('.detail-card').forEach(c => c.classList.remove('active'));
+
+            // Highlight Step
+            document.querySelectorAll('.step-col').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.step-col')[stepId - 1].classList.add('active');
+
+            const view = document.getElementById('detail-view');
+            view.style.display = 'block';
+            view.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleCard(cardElement) {
+            const type = cardElement.getAttribute('data-type');
+            const data = details[currentStepId];
+
+            // Check if already active
+            if (cardElement.classList.contains('active')) {
+                closePanel();
+                return;
+            }
+
+            // Reset all cards
+            document.querySelectorAll('.detail-card').forEach(c => c.classList.remove('active'));
+
+            // Activate clicked card
+            cardElement.classList.add('active');
+
+            // Populate & Show Panel
+            const panel = document.getElementById('expanded-panel');
+            const panelTitle = document.getElementById('panel-title');
+            const panelContent = document.getElementById('panel-content');
+
+            // Map type to key
+            let titleText = "";
+            let htmlContent = "";
+
+            if (type === 'sm') { titleText = "SM (System Management) Detail"; htmlContent = data.sm + "<hr style='margin:15px 0; border:0; border-top:1px dashed #ddd;'>" + data.sm_detail; }
+            if (type === 'si') { titleText = "SI (System Integration) Detail"; htmlContent = data.si + "<hr style='margin:15px 0; border:0; border-top:1px dashed #ddd;'>" + data.si_detail; }
+            if (type === 'dx') { titleText = "DX/AX (Digital/AI) Detail"; htmlContent = data.dx + "<hr style='margin:15px 0; border:0; border-top:1px dashed #ddd;'>" + data.dx_detail; }
+            if (type === 'ext') { titleText = "EXTERNAL Business Detail"; htmlContent = data.ext + "<hr style='margin:15px 0; border:0; border-top:1px dashed #ddd;'>" + data.ext_detail; }
+
+            panelTitle.innerText = titleText;
+            panelContent.innerHTML = htmlContent;
+
+            panel.style.display = "block";
+            // Allow display block to apply then fade in
+            setTimeout(() => {
+                panel.classList.add('visible');
+            }, 10);
+        }
+
+        function closePanel() {
+            const panel = document.getElementById('expanded-panel');
+            panel.classList.remove('visible');
+            setTimeout(() => {
+                panel.style.display = 'none';
+                document.querySelectorAll('.detail-card').forEach(c => c.classList.remove('active'));
+            }, 300); // Wait for transition
+        }
+
+        // Mouse Tracking Script
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            document.documentElement.style.setProperty('--mouse-x', x + 'px');
+            document.documentElement.style.setProperty('--mouse-y', y + 'px');
+        });
+    </script>
+</body>
+
+</html>
